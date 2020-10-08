@@ -166,7 +166,8 @@
           method: 'get',
           params: this.filterText
         }).then(({data}) => {
-          this.menuTree = data.tree
+          debugger
+          this.menuTree = data.listTree
         })
       },
     }
