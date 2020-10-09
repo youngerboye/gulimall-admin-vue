@@ -21,15 +21,24 @@
           <el-button
             type="text"
             size="mini"
+            v-if="node.level<=2"
             @click="() => append(data)">
             新增
           </el-button>
 
           <el-button
+            v-if="node.childNodes.length==0"
             type="text"
             size="mini"
             @click="() => remove(node, data)">
             删除
+          </el-button>
+
+            <el-button
+              type="text"
+              size="mini"
+              @click="() => update(node, data)">
+            修改
           </el-button>
         </span>
       </span>
@@ -39,7 +48,7 @@
       title="新增品类"
       :visible.sync="dialogVisible"
       width="30%"
-      :before-close="handleClose">
+    >
       <el-form :model="form">
         <el-form-item label="类别名称" :label-width="formLabelWidth">
           <el-input v-model="form.name" autocomplete="off"></el-input>
@@ -55,7 +64,7 @@
         </el-form-item>
       </el-form>
       <el-button @click="dialogVisible = false">取 消</el-button>
-      <el-button type="primary" @click="addCategory">确 定</el-button>
+      <el-button type="primary" @click="submit">确 定</el-button>
     </el-dialog>
 
   </div>
@@ -84,16 +93,43 @@
           catLevel: '',
           showStatus: '',
           sort: 0,
-          productUnit:'' ,
+          productUnit: '',
           productCount: 0,
         },
+        dialogType:'',
       }
     },
     created () {
       this.getMenu()
     },
     methods: {
-      addCategory(){
+      submit () {
+        if (this.dialogType === 'add') {
+          this.addCategory()
+        } else if (this.dialogType === 'update') {
+          this.updateCategory()
+        }
+      },
+      updateCategory () {
+        this.$http({
+          url: this.$http.adornUrl('/product/pmscategory/update'),
+          method: 'post',
+          data: this.form
+        }).then(({data}) => {
+          if (data && data.code === 0) {
+            this.$message({
+              message: '菜单修改成功',
+              type: 'success',
+              duration: 1500,
+            })
+            this.dialogVisible = false
+            this.getMenu()
+            this.form = {}
+          }
+        })
+      },
+      addCategory () {
+        this.dialogType == 'add';
         this.$http({
           url: this.$http.adornUrl('/product/pmscategory/save'),
           method: 'post',
@@ -107,22 +143,14 @@
             })
             this.dialogVisible = false
             this.getMenu()
-            this.form={}
+            this.form = {}
           }
         })
       },
-      handleClose (done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done()
-          })
-          .catch(_ => {
-          })
-      },
       append (data) {
         this.dialogVisible = true
-        this.form.parentCid=data.catId
-        this.form.catLevel = data.catLevel*1+1
+        this.form.parentCid = data.catId
+        this.form.catLevel = data.catLevel * 1 + 1
       },
 
       remove (node, data) {
@@ -155,6 +183,14 @@
             type: 'info',
           })
         })
+      },
+
+      update (data) {
+        console.log('updatedata:', data)
+        this.dialogVisible = true
+        this.form.name = data.name
+        this.form.catId = data.catId
+
       },
       filterNode (value, menuTree) {
         if (!value) return true
