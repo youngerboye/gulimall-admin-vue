@@ -13,6 +13,8 @@
              :filter-node-method="filterNode"
              node-key="catId"
              show-checkbox
+             draggable
+             :allow-drop="allowDrop"
              ref="tree">
       <span class="custom-tree-node" slot-scope="{ node, data }">
         <span>{{ data.name }}</span>
@@ -45,13 +47,16 @@
     </el-tree>
 
     <el-dialog
-      title="新增品类"
+      :title=title
       :visible.sync="dialogVisible"
       width="30%"
     >
       <el-form :model="form">
         <el-form-item label="类别名称" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
+          <el-input clearable v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item label="图标" :label-width="formLabelWidth">
+          <el-input clearable v-model="form.icon"></el-input>
         </el-form-item>
         <el-form-item label="是否显示" :label-width="formLabelWidth">
           <el-select v-model="form.showStatus" placeholder="请选择是否显示">
@@ -60,7 +65,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label=排序 :label-width="formLabelWidth">
-          <el-input-number v-model="form.sort" min="0" autocomplete="off"></el-input-number>
+          <el-input-number v-model="form.sort" :min="0"></el-input-number>
         </el-form-item>
       </el-form>
       <el-button @click="dialogVisible = false">取 消</el-button>
@@ -79,19 +84,22 @@
     },
     data () {
       return {
+        maxLevel:1,
         formLabelWidth: '120px',
         dialogVisible: false,
         filterText: '',
         menuTree: [],
+        title:'',
         defaultProps: {
           children: 'children',
           label: 'name'
         },
         form: {
           name: '',
+          icon:'',
           parentCid: '',
           catLevel: '',
-          showStatus: '',
+          showStatus: 1,
           sort: 0,
           productUnit: '',
           productCount: 0,
@@ -112,7 +120,7 @@
       },
       updateCategory () {
         this.$http({
-          url: this.$http.adornUrl('/product/pmscategory/update'),
+          url: this.$http.adornUrl(`/product/pmscategory/update`),
           method: 'post',
           data: this.form
         }).then(({data}) => {
@@ -124,14 +132,12 @@
             })
             this.dialogVisible = false
             this.getMenu()
-            this.form = {}
           }
         })
       },
       addCategory () {
-        this.dialogType == 'add';
         this.$http({
-          url: this.$http.adornUrl('/product/pmscategory/save'),
+          url: this.$http.adornUrl(`/product/pmscategory/save`),
           method: 'post',
           data: this.form
         }).then(({data}) => {
@@ -143,14 +149,63 @@
             })
             this.dialogVisible = false
             this.getMenu()
-            this.form = {}
           }
         })
       },
       append (data) {
+        this.form = {}
+        this.title = "新增品类"
+        this.dialogType = 'add';
         this.dialogVisible = true
         this.form.parentCid = data.catId
         this.form.catLevel = data.catLevel * 1 + 1
+      },
+
+      allowDrop(draggingNode, dropNode, type){
+       console.log("node:",draggingNode,dropNode,type)
+        if(dropNode.level>dropNode.level){
+          return true
+        }
+        return false
+      },
+
+      //统计被拖动的节点
+      countNodeLevel(node){
+        if(node.children!=null&&node.children.length>0){
+          for(let i=0;i<node.children.length;i++){
+            if(node.children[i].catLevel>this.maxLevel){
+              this.maxLevel = node.children[i].catLevel
+            }
+            this.countNodeLevel(node.children[i])
+          }
+        }
+      },
+
+
+      update (data) {
+        console.log('updatedata:', data)
+        this.title = '修改品类';
+        this.dialogType = 'update';
+        this.dialogVisible = true
+
+        this.$http({
+          url: this.$http.adornUrl(`/product/pmscategory/info/${data.data.catId}`),
+          method: 'get',
+        }).then(({data}) => {
+          if (data && data.code === 0) {
+            this.form.catId = data.category.catId
+            this.form.name = data.category.name
+            this.form.showStatus = data.category.showStatus
+            this.form.sort = data.category.sort
+            this.form.parentCid = data.category.parentCid
+            this.form.catLevel = data.category.catLevel
+            this.form.showStatus = data.category.showStatus
+            this.form.icon = data.category.icon
+            this.form.productUnit = data.category.productUnit
+            this.form.productCount = data.category.productCount
+            this.form.children = data.category.children
+          }
+        })
       },
 
       remove (node, data) {
@@ -185,13 +240,7 @@
         })
       },
 
-      update (data) {
-        console.log('updatedata:', data)
-        this.dialogVisible = true
-        this.form.name = data.name
-        this.form.catId = data.catId
 
-      },
       filterNode (value, menuTree) {
         if (!value) return true
         return menuTree.name.indexOf(value) !== -1
@@ -202,7 +251,6 @@
           method: 'get',
           params: this.filterText
         }).then(({data}) => {
-          debugger
           this.menuTree = data.listTree
         })
       },
