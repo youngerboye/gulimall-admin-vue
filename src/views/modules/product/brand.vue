@@ -38,7 +38,11 @@
         prop="logo"
         header-align="center"
         align="center"
-        label="品牌logo地址">
+        label="品牌logo址">
+        <!-- 图片的显示 -->
+        <template   slot-scope="scope">
+          <img :src="scope.row.logo"  min-width="70" height="70" />
+        </template>
       </el-table-column>
       <el-table-column
         prop="descript"
