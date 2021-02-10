@@ -2,7 +2,7 @@
   <div class="mod-config">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
+        <el-input v-model="dataForm.name" placeholder="品牌名" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
@@ -132,7 +132,7 @@
       updateBrandStatus(data){
         let {brandId,showStatus} = data;
         this.$http({
-          url: this.$http.adornUrl(`/product/brand/update`),
+          url: this.$http.adornUrl(`/product/brand/update/status`),
           method: 'post',
           data: this.$http.adornData({brandId,showStatus},false)
         }).then(({data}) => {
@@ -160,7 +160,7 @@
           params: this.$http.adornParams({
             'page': this.pageIndex,
             'limit': this.pageSize,
-            'key': this.dataForm.key
+            'name': this.dataForm.name
           })
         }).then(({data}) => {
           if (data && data.code === 0) {
