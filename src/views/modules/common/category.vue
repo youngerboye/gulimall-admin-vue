@@ -1,81 +1,82 @@
 <template>
   <div>
-    <el-input
-      placeholder="输入关键字进行过滤"
-      v-model="filterText"
-      clearable>
-    </el-input>
-    <el-tree class="filter-tree"
-             :data="menuTree"
-             :props="defaultProps"
-             :expand-on-click-node="false"
-             :filter-node-method="filterNode"
-             node-key="catId"
-             ref="tree"
-             @node-click="handleNodeClick">
-    </el-tree>
+    <el-input placeholder="输入关键字进行过滤" v-model="filterText"></el-input>
+    <el-tree
+      :data="menus"
+      :props="defaultProps"
+      node-key="catId"
+      ref="menuTree"
+      @node-click="nodeclick"
+      :filter-node-method="filterNode"
+      :highlight-current = "true"
+    ></el-tree>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'category',
-    data() {
-      return {
-        maxLevel: 1,
-        formLabelWidth: '120px',
-        dialogVisible: false,
-        filterText: '',
-        menuTree: [],
-        title: '',
-        defaultProps: {
-          children: 'children',
-          label: 'name'
-        },
-        form: {
-          name: '',
-          icon: '',
-          parentCid: '',
-          catLevel: '',
-          showStatus: 1,
-          sort: 0,
-          productUnit: '',
-          productCount: 0,
-        },
-        dialogType: '',
-      };
-    },
-    watch: {
-      filterText(val) {
-        this.$refs.tree.filter(val);
+//这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
+//例如：import 《组件名称》 from '《组件路径》';
+
+export default {
+  //import引入的组件需要注入到对象中才能使用
+  components: {},
+  props: {},
+  data() {
+    //这里存放数据
+    return {
+      filterText: "",
+      menus: [],
+      expandedKey: [],
+      defaultProps: {
+        children: "children",
+        label: "name"
       }
-    },
-    created() {
-      this.getMenu();
-    },
-    methods: {
-      getMenu() {
-        this.$http({
-          url: this.$http.adornUrl('/product/pmscategory/list/tree'),
-          method: 'get',
-          params: this.filterText
-        }).then(({data}) => {
-          this.menuTree = data.listTree;
-        });
-      },
-      filterNode(value, menuTree) {
-        if (!value) return true;
-        return menuTree.name.indexOf(value) !== -1;
-      },
-      handleNodeClick(data,node,object) {
-        console.log("子节点被点击:",data,node,object);
-        this.$emit("click-tree-node",data)
-      }
+    };
+  },
+  //计算属性 类似于data概念
+  computed: {},
+  //监控data中的数据变化
+  watch: {
+    filterText(val) {
+      this.$refs.menuTree.filter(val);
     }
-
-  };
+  },
+  //方法集合
+  methods: {
+    //树节点过滤
+    filterNode(value, data) {
+      if (!value) return true;
+      return data.name.indexOf(value) !== -1;
+    },
+    getMenus() {
+      this.$http({
+        url: this.$http.adornUrl("/product/category/list/tree"),
+        method: "get"
+      }).then(({ data }) => {
+        this.menus = data.listTree;
+      });
+    },
+    nodeclick(data, node, component) {
+      console.log("子组件category的节点被点击", data, node, component);
+      //向父组件发送事件；
+      this.$emit("tree-node-click", data, node, component);
+    }
+  },
+  //生命周期 - 创建完成（可以访问当前this实例）
+  created() {
+    this.getMenus();
+  },
+  //生命周期 - 挂载完成（可以访问DOM元素）
+  mounted() {},
+  beforeCreate() {}, //生命周期 - 创建之前
+  beforeMount() {}, //生命周期 - 挂载之前
+  beforeUpdate() {}, //生命周期 - 更新之前
+  updated() {}, //生命周期 - 更新之后
+  beforeDestroy() {}, //生命周期 - 销毁之前
+  destroyed() {}, //生命周期 - 销毁完成
+  activated() {} //如果页面有keep-alive缓存功能，这个函数会触发
+};
 </script>
-
-<style scoped>
+<style scoped>
 
 </style>
