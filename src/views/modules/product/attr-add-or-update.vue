@@ -121,13 +121,13 @@ export default {
             trigger: "blur"
           }
         ],
-        valueType: [
-          {
-            required: true,
-            message: "值类型不能为空",
-            trigger: "blur"
-          }
-        ],
+        // valueType: [
+        //   {
+        //     required: true,
+        //     message: "值类型不能为空",
+        //     trigger: "blur"
+        //   }
+        // ],
         icon: [
           { required: true, message: "属性图标不能为空", trigger: "blur" }
         ],
@@ -184,7 +184,6 @@ export default {
           params: this.$http.adornParams({ page: 1, limit: 10000000 })
         }).then(({ data }) => {
           if (data && data.code === 0) {
-            debugger
             this.attrGroups = data.page.list;
           } else {
             this.$message.error(data.msg);
@@ -226,7 +225,6 @@ export default {
               this.dataForm.showDesc = data.attr.showDesc;
               //attrGroupId
               //catelogPath
-              debugger
               this.catelogPath = data.attr.catelogPath;
               this.$nextTick(() => {
                 this.dataForm.attrGroupId = data.attr.attrGroupId;

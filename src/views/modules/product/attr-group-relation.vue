@@ -55,7 +55,7 @@
             border
           >
             <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-            <el-table-column prop="attrId" label="#"></el-table-column>
+            <el-table-column prop="attrId" label="属性id"></el-table-column>
             <el-table-column prop="attrName" label="属性名"></el-table-column>
             <el-table-column prop="valueSelect" label="可选值">
               <template slot-scope="scope">

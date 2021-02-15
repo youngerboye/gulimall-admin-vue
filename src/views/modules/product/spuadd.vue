@@ -458,13 +458,13 @@ export default {
         brandId: "",
         weight: "",
         publishStatus: 0,
-        decript: [], 
-        images: [], 
+        decript: [],
+        images: [],
         bounds: {
           buyBounds: 0,
           growBounds: 0
         },
-        baseAttrs: [], 
+        baseAttrs: [],
         skus: []
       };
     },
@@ -638,6 +638,7 @@ export default {
       return res;
     },
     getShowSaleAttr() {
+      debugger
       //获取当前分类可以使用的销售属性
       if (!this.dataResp.steped[1]) {
         this.$http({

@@ -37,6 +37,8 @@
           <el-table-column prop="descript" header-align="center" align="center" label="描述"></el-table-column>
           <el-table-column prop="icon" header-align="center" align="center" label="组图标"></el-table-column>
           <el-table-column prop="catelogId" header-align="center" align="center" label="所属分类id"></el-table-column>
+          <el-table-column prop="catelogName" header-align="center" align="center" label="分类名称"></el-table-column>
+
           <el-table-column
             fixed="right"
             header-align="center"

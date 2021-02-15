@@ -38,12 +38,13 @@ export default {
   //监控data中的数据变化
   watch: {
     brandId(val) {
-      this.PubSub.publish("brandId", val);
+      PubSub.publish("brandId", val);
     }
   },
   //方法集合
   methods: {
     getCatBrands() {
+      debugger
       this.$http({
         url: this.$http.adornUrl("/product/categorybrandrelation/brands/list"),
         method: "get",
