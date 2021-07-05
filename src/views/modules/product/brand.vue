@@ -160,13 +160,13 @@ export default {
     },
     getCateRelation() {
       this.$http({
-        url: this.$http.adornUrl("/product/categorybrandrelation/catelog/list"),
+        url: this.$http.adornUrl("/product/categorybrandrelation/list"),
         method: "get",
         params: this.$http.adornParams({
           brandId: this.brandId
         })
       }).then(({ data }) => {
-        this.cateRelationTableData = data.data;
+        this.cateRelationTableData = data.page.list;
       });
     },
     // 获取数据列表
