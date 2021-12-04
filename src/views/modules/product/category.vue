@@ -1,8 +1,17 @@
 <template>
   <div>
+    <el-input
+      placeholder="输入关键字进行过滤"
+      v-model="filterText"
+    style="width: 30%"
+    clearable>
+    </el-input>
+
+    <br/>
     <el-switch v-model="draggable" active-text="开启拖拽" inactive-text="关闭拖拽"></el-switch>
     <el-button v-if="draggable" @click="batchSave">批量保存</el-button>
     <el-button type="danger" @click="batchDelete">批量删除</el-button>
+
     <el-tree
       :data="menus"
       :props="defaultProps"
@@ -10,6 +19,7 @@
       show-checkbox
       node-key="catId"
       :default-expanded-keys="expandedKey"
+      :filter-node-method="filterNode"
       :draggable="draggable"
       :allow-drop="allowDrop"
       @node-drop="handleDrop"
@@ -70,6 +80,7 @@ export default {
   props: {},
   data() {
     return {
+      filterText: '',
       pCid: [],
       draggable: false,
       updateNodes: [],
@@ -99,9 +110,18 @@ export default {
   //计算属性 类似于data概念
   computed: {},
   //监控data中的数据变化
-  watch: {},
+  watch: {
+    filterText(val) {
+      debugger
+      this.$refs.menuTree.filter(val);
+    }
+  },
   //方法集合
   methods: {
+    filterNode(value, data) {
+      if (!value) return true;
+      return data.name.indexOf(value) !== -1;
+    },
     getMenus() {
       this.$http({
         url: this.$http.adornUrl("/product/category/list/tree"),
