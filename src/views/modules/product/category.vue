@@ -7,7 +7,7 @@
     clearable>
     </el-input>
 
-    <br/>
+    <br/>关联
     <el-switch v-model="draggable" active-text="开启拖拽" inactive-text="关闭拖拽"></el-switch>
     <el-button v-if="draggable" @click="batchSave">批量保存</el-button>
     <el-button type="danger" @click="batchDelete">批量删除</el-button>

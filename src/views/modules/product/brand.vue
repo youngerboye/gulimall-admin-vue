@@ -166,7 +166,7 @@ export default {
           brandId: this.brandId
         })
       }).then(({ data }) => {
-        this.cateRelationTableData = data.data.list;
+        this.cateRelationTableData = data.page.list;
       });
     },
     // 获取数据列表
