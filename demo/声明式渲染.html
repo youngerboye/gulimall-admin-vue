@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>title</title>
+</head>
+<script src="../js/vue.js" type="text/javascript"></script>
+<body>
+<div id="root">
+
+  <h2>{{name}}</h2>
+  <h2>{{num}}</h2>
+  <button @click="cacle">点我num-1</button>
+</div>
+
+</body>
+<script type="text/javascript">
+  new Vue({
+    el: '#root',
+    data() {
+      return {
+        name: '张三',
+        num: 1
+      }
+    },
+    methods: {
+      cacle() {
+        this.num--;
+      },
+      hello() {
+        return '1'
+      }
+    }
+
+  })
+</script>
+
+</html>

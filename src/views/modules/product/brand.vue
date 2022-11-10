@@ -24,7 +24,7 @@
       @selection-change="selectionChangeHandle"
       style="width: 100%;"
     >
-      <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
+      <el-table-column type="selection" headerc-align="center" align="center" width="50"></el-table-column>
       <el-table-column prop="brandId" header-align="center" align="center" label="品牌id"></el-table-column>
       <el-table-column prop="name" header-align="center" align="center" label="品牌名"></el-table-column>
       <el-table-column prop="logo" header-align="center" align="center" label="品牌logo地址">
@@ -166,7 +166,7 @@ export default {
           brandId: this.brandId
         })
       }).then(({ data }) => {
-        this.cateRelationTableData = data.page.list;
+        this.cateRelationTableData = data.data;
       });
     },
     // 获取数据列表

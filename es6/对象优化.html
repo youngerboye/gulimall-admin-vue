@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script>
+  const pro = {
+    name: "young",
+    age: 21,
+    language: ['java', 'css']
+  }
+  console.log(Object.keys(pro))
+  console.log(Object.values(pro))
+  console.log(Object.entries(pro))
+
+  //声明对象简写
+  const age = 23
+  const name = '张珊'
+  const pro2 = {name, age}
+  console.log(pro2)
+
+
+  //对象的函数属性简写
+  let p3 = {
+    name: 'jack',
+    eat: function (food) {
+      console.log(this.name + "吃" + food)
+    },
+    eat2: food => console.log(this.name + "吃" + food),
+    eat3(food) {
+      console.log(this.name + "吃" + food)
+    }
+  }
+  p3.eat("香蕉")
+  p3.eat("苹果")
+  p3.eat("橘子")
+
+  //4)对象扩展的运算符
+  //1.拷贝对象(深拷贝)
+  let p1 = {name:'aaa',age:'22'}
+  let someOne = {...p1}
+  console.log(someOne)
+
+  //2.合并对象
+  let age1 = {age:14}
+  let name1 = {name:'小王'}
+  let p2 = {name:'张珊'}
+  p2 = {...age1,...name1}
+  console.log(p2)
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script>
+  //函数参数的默认值
+  function add(a, b = 20) {
+    return a + b
+  }
+
+  console.log(add(1))
+
+  //不定参数
+  function fun(...value) {
+    console.log(value.length)
+  }
+
+  //箭头函数
+  let print = obj => console.log(obj);
+  print('hello')
+
+  let sum2 = (a, b) => a + b
+  console.log(sum2(1, 3))
+
+  let sum3 = (a, b) => {
+    let c = a + b;
+    return a + c;
+  }
+  console.log(sum3(1,2))
+
+  //箭头函数+解构
+  const person = {
+    name: 'jack',
+    age: 21,
+    language:['java','c++']
+  }
+
+  let ss = ({name}) => console.log(name)
+  ss(person)
+
+
+</script>
+
+</body>
+</html>

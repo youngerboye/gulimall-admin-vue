@@ -36,7 +36,7 @@
           >Append</el-button>
           <el-button type="text" size="mini" @click="edit(data)">edit</el-button>
           <el-button
-            v-if="node.childNodes.length==0"
+            v-if="node.childNodes.length===0"
             type="text"
             size="mini"
             @click="() => remove(node, data)"
@@ -274,8 +274,8 @@ export default {
         url: this.$http.adornUrl(`/product/category/info/${data.catId}`),
         method: "get"
       }).then(({ data }) => {
+        debugger
         //请求成功
-        console.log("要回显的数据", data);
         this.category.name = data.data.name;
         this.category.catId = data.data.catId;
         this.category.icon = data.data.icon;

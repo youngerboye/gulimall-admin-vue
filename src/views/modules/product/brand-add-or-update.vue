@@ -63,7 +63,7 @@ export default {
       dataRule: {
         name: [{ required: true, message: "品牌名不能为空", trigger: "blur" }],
         logo: [
-          { required: true, message: "品牌logo地址不能为空", trigger: "blur" }
+          { required: false, message: "品牌logo地址不能为空", trigger: "blur" }
         ],
         descript: [
           { required: true, message: "介绍不能为空", trigger: "blur" }
@@ -92,7 +92,7 @@ export default {
         sort: [
           {
             validator: (rule, value, callback) => {
-              if (value == "") {
+              if (value === "") {
                 callback(new Error("排序字段必须填写"));
               } else if (!Number.isInteger(value) || value<0) {
                 callback(new Error("排序必须是一个大于等于0的整数"));

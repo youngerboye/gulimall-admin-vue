@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>title</title>
+</head>
+<script src="../js/vue.js" type="text/javascript"></script>
+<body>
+<div id="root">
+
+  <a :href="link">gogogo</a>
+  <span :class="{active: isActive,'text-danger':hasError}"
+        :style="{color: color1,frontSize:size}">你好</span>
+</div>
+
+</body>
+<script type="text/javascript">
+    new Vue({
+        el:'#root',
+        data() {
+            return {
+              link: "http://www.baidu.com",
+              isActive:true,
+              hasError:true,
+              color1:'red',
+              size:'36px'
+            }
+        }
+    })
+</script>
+
+</html>

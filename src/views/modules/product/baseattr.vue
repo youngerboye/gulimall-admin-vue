@@ -64,21 +64,21 @@
           </el-table-column>
           <el-table-column prop="enable" header-align="center" align="center" label="启用">
             <template slot-scope="scope">
-              <i class="el-icon-success" v-if="scope.row.enable==1"></i>
+              <i class="el-icon-success" v-if="scope.row.enable===1"></i>
               <i class="el-icon-error" v-else></i>
             </template>
           </el-table-column>
           <el-table-column prop="catelogName" header-align="center" align="center" label="所属分类"></el-table-column>
           <el-table-column
-            v-if="attrtype == 1"
+            v-if="attrtype === 1"
             prop="groupName"
             header-align="center"
             align="center"
             label="所属分组"
           ></el-table-column>
-          <el-table-column v-if="attrtype == 1" prop="showDesc" header-align="center" align="center" label="快速展示">
+          <el-table-column v-if="attrtype === 1" prop="showDesc" header-align="center" align="center" label="快速展示">
             <template slot-scope="scope">
-              <i class="el-icon-success" v-if="scope.row.showDesc==1"></i>
+              <i class="el-icon-success" v-if="scope.row.showDesc===1"></i>
               <i class="el-icon-error" v-else></i>
             </template>
           </el-table-column>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>title</title>
+</head>
+<script src="../js/vue.js" type="text/javascript"></script>
+<body>
+<div id="root">
+  <!--事件中直接写js片段-->
+  <button v-on:click="num++">点赞</button>
+  <!--事件指定一个回调函数，必须是Vue实例中定义的函数-->
+  <button @click="cancle">取消</button>
+
+  <!-- 事件修饰符 -->
+  <div style="border: 1px solid red;padding: 20px;" v-on:click="hello">
+    大div
+    <div style="border: 1px solid blue;padding: 20px;" @click="hello"> 小div <br />
+      <a href="http://www.baidu.com" @click.prevent="hello">去百度</a>
+    </div>
+  </div>
+</div>
+
+</body>
+<script type="text/javascript">
+  new Vue({
+    el: '#root',
+    data() {
+      return {
+        name: '张三',
+        num: 1
+      }
+    },
+    methods: {
+      cacle() {
+        this.num--;
+      },
+      hello() {
+        return '1'
+      }
+    }
+
+  })
+</script>
+
+</html>
